@@ -1,3 +1,5 @@
+import { enableValidation, resetValidation } from "./validate.js";
+
 const initialCards = [
   {
     name: "Valle de Yosemite",
@@ -59,6 +61,12 @@ function openModal(modal) {
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscKeyUp);
+
+  const formInside = modal.querySelector(".popup__form");
+  if (formInside) {
+    formInside.reset();
+    resetValidation(formInside);
+  }
 }
 
 function fillProfileForm() {
@@ -164,3 +172,5 @@ popups.forEach(function (popup) {
     }
   });
 });
+
+enableValidation();

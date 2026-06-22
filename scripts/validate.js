@@ -20,14 +20,12 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 };
 
-// 1. Revisa si hay errores (debe ir arriba)
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 };
 
-// 2. Enciende o apaga el botón (debe ir arriba)
 const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add("popup__button_disabled");
@@ -52,16 +50,23 @@ const setEventListeners = (formElement) => {
   });
 };
 
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
+export const resetValidation = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
+  const buttonElement = formElement.querySelector(".popup__button");
 
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement);
+  });
+
+  toggleButtonState(inputList, buttonElement);
+};
+
+export const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll(".popup__form"));
   formList.forEach((formElement) => {
     formElement.addEventListener("submit", function (evt) {
       evt.preventDefault();
     });
-
     setEventListeners(formElement);
   });
 };
-
-enableValidation();
