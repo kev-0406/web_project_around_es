@@ -1,4 +1,4 @@
-import { enableValidation, resetValidation } from "./validate.js";
+import { setEventListeners, resetValidation } from "./validate.js";
 
 const initialCards = [
   {
@@ -76,7 +76,22 @@ function fillProfileForm() {
 
 function handleOpenEditModal() {
   fillProfileForm();
+  const formInside = editProfileModal.querySelector(".popup__form");
+  if (formInside) {
+    resetValidation(formInside);
+  }
   openModal(editProfileModal);
+}
+
+function enableValidation() {
+  const formList = Array.from(document.querySelectorAll(".popup__form"));
+
+  formList.forEach((formElement) => {
+    formElement.addEventListener("submit", function (evt) {
+      evt.preventDefault();
+    });
+    setEventListeners(formElement);
+  });
 }
 
 function handleProfileFormSubmit(evt) {
